@@ -15,3 +15,10 @@ Route::get('/', function () {
     return redirect('applicants');
 });
 Route::resource('applicants','ApplicantController');
+
+Route::get('/login', function() {
+    return view('applicants.login');
+});
+Route::get('/register', function() {
+    return view('applicants.register');
+});
