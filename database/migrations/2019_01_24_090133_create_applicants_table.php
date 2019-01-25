@@ -16,10 +16,12 @@ class CreateApplicantsTable extends Migration
         Schema::create('applicants', function (Blueprint $table) {
             $table->increments('id');
             $table->string('full_name');
-            $table->date('dob');
+            $table->string('gender');
             $table->string('pob');
-            $table->integer('phone_numb');
-            $table->string('uploade_cv');
+            $table->string('address');
+            $table->string('phone_numb');
+            $table->string('p_profile')->nullable();
+            $table->string('upload_cv')->nullable();
             $table->timestamps();
         });
     }
