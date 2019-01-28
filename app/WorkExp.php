@@ -14,6 +14,6 @@ class WorkExp extends Model
     ];
     public function applicant()
     {
-        $this->belongTo('App\Applicant','id_app');
+        return $this->belongsTo('App\Applicant','id_app');
     }
 }

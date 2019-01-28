@@ -28,10 +28,14 @@ class ApplicantController extends Controller
          }
 
         //validation for personal information 
-        if ($c == 1){
-            return view('applicants.profile');
+        if ($c == $idauth){
+            $applicants = Applicant::select('id')->where('id_user',$idauth)->get();
+            //dd($applicants );
+            return view('applicants.profile')->with('applicants',$applicants);
         } else {
-            return redirect(route('applicants.create'))->with('id',$idauth);
+             $applicants = Applicant::select('id')->where('id_user',$idauth)->get();
+             //dd($applicants);
+            return redirect(route('applicants.create'))->with('applicants',$applicants);
         }
         
     }
@@ -130,7 +134,9 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
-        //
+        //Eager loading
+        $applicants = Applicant::with(['EduBackground','WorkExp'])->get();
+        return view('applicants.show')->with('applicants',$applicants);
     }
 
     /**

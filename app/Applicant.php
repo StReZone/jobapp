@@ -28,14 +28,14 @@ class Applicant extends Model
     }
     public function user()
     {
-        $this->hasOne('App\user','id_user');
+        return $this->hasOne('App\user','id_user');
     }
     public function eduBackground()
     {
-        $this->hasMany('App\EduBackground','id');
+        return $this->hasMany('App\EduBackground','id_app');
     }
     public function workExp()
     {
-        $this->hasMany('App\WorkExp','id_app');
+        return $this->hasMany('App\WorkExp','id_app');
     }
 }
