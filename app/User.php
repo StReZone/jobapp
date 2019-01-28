@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -15,18 +16,26 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email','dob','password',
+        'name', 'email','dob','password'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
     ];
 
     public function roles()
     {
-        $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class);
     }
-
 
     public function applicant()
     {
-        $this->belongsTo('App\Applicant','id_user');
+        return $this->belongsTo('App\Applicant','id_user');
     }
 
     public function authorizeRole($roles)
@@ -47,12 +56,4 @@ class User extends Authenticatable
         return null !== $this->roles()->where('name',$role)->first();
     }
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 }

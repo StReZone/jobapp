@@ -1,12 +1,14 @@
 @extends("master.app_template")
 
 @section('content')
+
 <div class="container">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-    {!! Form::open (['route' => 'applicants.store', 'class' => 'form-horizontal', 'role' => 'form'])!!}
+    {!! Form::open (['route' => 'applicants.store', 'class' => 'form-horizontal', 'role' => 'form','enctype' => 'multipart/form-data'])!!}
         <h2>Personal Information</h2>
         <br/>
+        {!! Form::hidden('id_user', $id , array('class' => 'form-control')) !!}   
         <div class="form-group">
             {!! Form::label('fullname', 'Full Name', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-9">
@@ -53,13 +55,16 @@
             {!! Form::label('address', 'Address', array('class' => 'col-sm-3 control-label')) !!}  
             <div class="col-sm-9">
                 <div class="text-danger">{!! $errors->first('address') !!}</div>
-                {!! Form::text('address', null, array('class' => 'form-control', 'placeholder' => 'Address', 'autofocus' => 'true')) !!}  
+                {!! Form::textarea('address', null, array('class' => 'form-control', 'row' => 4, 'autofocus' => 'true')) !!}  
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-9 col-sm-offset-3">
                 <span class="help-block">*Required fields</span>
             </div>
+        </div>
+        <div class="form-group">
+                @include('applicants.table')
         </div>
         <div class="col-sm-3 col-sm-offset-9">
             {!! Form::submit('Simpan', array('class' => 'btn btn-primary btn-block')) !!}

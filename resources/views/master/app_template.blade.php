@@ -51,7 +51,9 @@
 
     <!-- jQuery -->
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-
+    <script src="https://code.jquery.com/jquery-1.12.4.js"
+            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+            crossorigin="anonymous"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
@@ -60,6 +62,69 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{asset('dist/js/sb-admin-2.js')}}"></script>
+
+    <script>
+        $(document).ready(function () {
+        var counter = 0;
+
+        $("#addrow").on("click", function () {
+            var newRow = $("<tr>");
+            var cols = "";
+
+            cols += '<td><input type="text" class="form-control" name="years[]" multiple/></td>';
+            cols += '<td><input type="text" class="form-control" name="institution[]" multiple/></td>';
+            cols += '<td><input type="text" class="form-control" name="level[]" multiple/></td>';
+            cols += '<td><input type="text" class="form-control" name="gpa[]" multiple/></td>';
+
+            cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+            newRow.append(cols);
+            $("table.order-list").append(newRow);
+            counter++;
+        });
+
+        $("#addrow2").on("click", function () {
+            var newRow = $("<tr>");
+            var cols = "";
+
+            cols += '<td><input type="text" class="form-control" name="yearswork[]" multiple/></td>';
+            cols += '<td><input type="text" class="form-control" name="company[]" multiple/></td>';
+            cols += '<td><input type="text" class="form-control" name="position[]" multiple/></td>';
+        
+            cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+            newRow.append(cols);
+            $("table.order-list2").append(newRow);
+            counter++;
+        });
+
+
+        $("table.order-list").on("click", ".ibtnDel", function (event) {
+            $(this).closest("tr").remove();       
+            counter -= 1
+        });
+
+        $("table.order-list2").on("click", ".ibtnDel", function (event) {
+            $(this).closest("tr").remove();       
+            counter -= 1
+        });
+
+
+    });
+
+
+
+function calculateRow(row) {
+    var price = +row.find('input[name^="price"]').val();
+
+}
+
+function calculateGrandTotal() {
+    var grandTotal = 0;
+    $("table.order-list").find('input[name^="price"]').each(function () {
+        grandTotal += +$(this).val();
+    });
+    $("#grandtotal").text(grandTotal.toFixed(2));
+}
+    </script>
 
 </body>
 </html>

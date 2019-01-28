@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/applicants';
 
     /**
      * Create a new controller instance.
@@ -48,12 +48,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $message = [
+            'before' => 'Sorry the user must be 17 y.o or above'
+        ];
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'dob' => 'required|date',
+            'dob' => 'required|date|before: -17 years',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+        ], $message);
     }
 
     /**
@@ -70,10 +73,9 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'dob' => date('Y-m-d', strToTime($data['dob'])),
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
         ]);
-        $role = Role::where('name','applicant')->first();
-        $user->roles()->attach($role);
+        $user->roles()->attach(Role::where('name','applicant')->first());
         return $user;
     }
 }

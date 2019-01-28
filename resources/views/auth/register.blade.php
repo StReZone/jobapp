@@ -20,7 +20,7 @@
     <link href="{{asset('css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet">
     
      <!-- Custom Fonts -->
-    <link href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" >
 </head>
 <body>
 <div class="sidenav">
@@ -30,10 +30,9 @@
     </div>
 </div>
 <div class="main">
-
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+            <div class="panel panel-default "style="margin: 25% 20px">
+                <div class="panel-heading" >Register</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">

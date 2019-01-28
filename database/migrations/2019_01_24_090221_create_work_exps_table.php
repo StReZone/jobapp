@@ -15,10 +15,10 @@ class CreateWorkExpsTable extends Migration
     {
         Schema::create('work_exps', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_app');
-            $table->integer('years');
-            $table->string('company');
-            $table->string('position');
+            $table->integer('id_app')->nullable();
+            $table->integer('years')->nullable();
+            $table->string('company')->nullable();
+            $table->string('position')->nullable();
             $table->timestamps();
         });
     }
