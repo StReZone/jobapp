@@ -17,13 +17,23 @@ class ApplicantController extends Controller
      */
     public function index()
     {
+        $c=0;
+        //id user login
         $idauth = Auth::User()->id;
+
+        // get id_app from applicant
+        $check = Applicant::select('id_user')->where('id_user',$idauth)->get();
+         foreach ($check as  $value) {
+            $c = $value->id_user;
+         }
+
+        //validation for personal information 
+        if ($c == 1){
+            return view('applicants.profile');
+        } else {
+            return redirect(route('applicants.create'))->with('id',$idauth);
+        }
         
-        if (Applicant::where('id_app',$idauth)!== 0){
-            //dd(Applicant::where('id_app',$idauth));
-            return view('applicants.create_profile')->with('id',$idauth);
-        } 
-        return view('applicants.profile');
     }
 
     /**

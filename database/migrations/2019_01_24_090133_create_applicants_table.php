@@ -19,10 +19,12 @@ class CreateApplicantsTable extends Migration
             $table->string('full_name');
             $table->string('gender');
             $table->string('pob');
-            $table->string('address');
+            $table->text('address');
             $table->string('phone_numb');
             $table->string('p_profile')->nullable();
             $table->string('upload_cv')->nullable();
+            $table->string('status')->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
