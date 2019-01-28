@@ -17,6 +17,7 @@
 
     <!-- Custom CSS -->
     <link href="{{asset('dist/css/sb-admin-2.css')}}" rel="stylesheet">
+     <link href="{{asset('css/custom.css')}}" rel="stylesheet">
 
      <!-- Custom Fonts -->
     <link href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
@@ -33,11 +34,9 @@
         <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                    @if(Request::path() == 'applicants/create'                                 )
-                        <h1 class="page-header">Pesonal Information</h1>
-                    @else
-                        <h1 class="page-header">Dashboard</h1>
-                    @endif 
+                    
+                       
+                
                         @yield('content')
                     </div>
                     <!-- /.col-lg-12 -->
@@ -64,6 +63,23 @@
     <script src="{{asset('dist/js/sb-admin-2.js')}}"></script>
 
     <script>
+        $(document).on('change','.up', function(){
+            var names = [];
+            var length = $(this).get(0).files.length;
+                for (var i = 0; i < $(this).get(0).files.length; ++i) {
+                    names.push($(this).get(0).files[i].name);
+                }
+                // $("input[name=file]").val(names);
+                if(length>2){
+                  var fileName = names.join(', ');
+                  $(this).closest('.form-group').find('.form-control').attr("value",length+" files selected");
+                }
+                else{
+                    $(this).closest('.form-group').find('.form-control').attr("value",names);
+                }
+       });
+
+
         $(document).ready(function () {
         var counter = 0;
 
@@ -125,6 +141,7 @@ function calculateGrandTotal() {
     $("#grandtotal").text(grandTotal.toFixed(2));
 }
     </script>
+
 
 </body>
 </html>

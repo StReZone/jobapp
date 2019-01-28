@@ -31,7 +31,7 @@ class ApplicantController extends Controller
         if ($c == $idauth){
             $applicants = Applicant::select('id')->where('id_user',$idauth)->get();
             //dd($applicants );
-            return view('applicants.profile')->with('applicants',$applicants);
+            return view('applicants.dashboard')->with('applicants',$applicants);
         } else {
              $applicants = Applicant::select('id')->where('id_user',$idauth)->get();
              //dd($applicants);
@@ -125,6 +125,43 @@ class ApplicantController extends Controller
         }
         
     }
+
+    public function upload()
+    {
+        $applicants = Applicant::with(['EduBackground','WorkExp'])->get();
+        return view('applicants.upload')->with('applicants',$applicants);
+
+    }
+    public function storeUpload(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'userfile.*' => 'required|mimes:pdf|max:10000'
+]
+        ]);
+
+        if ($validation->fails()){
+            return redirect()->back()->withInput()->with('errors', $validation->errors());
+        }else {
+
+            //$id = $applicant->id;
+            //$applicant = Applicant::all();  
+            if ($request->hasFile('userfile')) {
+            $files = $request->file('userfile');
+            foreach ($files as $file) {
+                $destination_path = 'uploads/';
+                $filename = str_random(6).'_'.$file->getClientOriginalName();
+                $file->move($destination_path, $filename);
+                $applicant = Applicant::find($id); 
+                $applicant->upload_cv = $destination_path . $filename;
+                $applicants->save();   
+                    
+                }
+            }   
+            Session::flash("notice","Article success created");
+            return redirect()->route("applicant.index");
+        }
+    }
+    
 
     /**
      * Display the specified resource.

@@ -27,10 +27,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::group(['middleware' => ['auth','role:admin'] ], function() {
+//]] Route::group(['middleware' => ['auth','role:admin'] ], function() {
 //     Route::resource('admin','ManagerController');
 // });
 Route::group(['middleware' => ['auth','role:applicant']], function() {
     Route::resource('applicants','ApplicantController');
-
+    Route::get('/upload','ApplicantController@upload')->name('upload');
+    Route::post('/storeUpload','ApplicantController@storeUpload')->name('storeUpload');
 });
