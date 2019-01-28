@@ -27,7 +27,7 @@ class Applicant extends Model
     }
     public function user()
     {
-        $this->hasMany('App\user','id_app');
+        $this->hasOne('App\user','id_user');
     }
     public function eduBackground()
     {

@@ -16,7 +16,7 @@ class ApplicantController extends Controller
      */
     public function index()
     {
-        //return view('applicants.profile');
+        return view('applicants.profile');
     }
 
     /**

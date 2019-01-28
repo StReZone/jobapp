@@ -15,12 +15,36 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id_app','name', 'email', 'password',
+        'name', 'email','dob','password',
     ];
+
+    public function roles()
+    {
+        $this->belongsToMany(Role::class);
+    }
+
 
     public function applicant()
     {
-        $this->belongTo('App\Applicant','id_app');
+        $this->belongsTo('App\Applicant','id_user');
+    }
+
+    public function authorizeRole($roles)
+    {
+        if(is_array($roles)) {
+            return $this->hasAnyRole($roles) || abort (401, 'This action is unauthorized.');
+        }
+        return $this->hasRole($roles) || abort (401,'This action is unauthorized.'); 
+    }
+
+    public function hasAnyRole($roles)
+    {
+        return null !== $this->roles()->whereIn('name',$roles)->first();
+    }
+
+    public function hasRole($role)
+    {
+        return null !== $this->roles()->where('name',$role)->first();
     }
 
     /**
