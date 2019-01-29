@@ -12,23 +12,16 @@
 */
 
 Route::get('/', function () {
-    return redirect('applicants');
-});
-//Route::resource('applicants','ApplicantController');
-
-Route::get('/login', function() {
-    return view('applicants.login');
-});
-Route::get('/register', function() {
-    return view('applicants.register');
-});
+    return redirect(route('login'));
+ });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 Route::group(['middleware' => ['auth','role:admin'] ], function() {
      Route::resource('admin','AdminController');
+     
 });
 
 Route::group(['middleware' => ['auth','role:applicant']], function() {
@@ -36,3 +29,5 @@ Route::group(['middleware' => ['auth','role:applicant']], function() {
     Route::get('/upload','ApplicantController@upload')->name('upload');
     Route::post('/storeUpload','ApplicantController@storeUpload')->name('storeUpload');
 });
+
+Route::get('/home', 'HomeController@index')->name('home');

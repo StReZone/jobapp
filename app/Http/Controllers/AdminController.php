@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use Auth;
+use Validator;
+use Response;
+use App\Applicant;
+use View;
 
 class AdminController extends Controller
 {
+    protected $rules =
+    [
+        'title' => 'required|min:2|max:32|regex:/^[a-z ,.\'-]+$/i',
+        'content' => 'required|min:2|max:128|regex:/^[a-z ,.\'-]+$/i'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        //Eager loading
+        $applicants = Applicant::with(['EduBackground','WorkExp'])->get();
+        
+        return view('admin.dashboard')->with('applicants',$applicants);
     }
 
     /**
@@ -34,7 +48,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -45,7 +59,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $applicants = Applicants::findOrFail($id);
     }
 
     /**
@@ -68,7 +82,16 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make(Input::all(), $this->rules);
+        if ($validator->fails()) {
+            return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
+        } else {
+            $applicants = Applicant::findOrFail($id);
+            $applicants->status = $request->status;
+            $applicants->comment = $request->comment;
+            $applicants->save();
+            return response()->json($applicants);
+        }
     }
 
     /**
@@ -79,6 +102,9 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $applicants = Applicant::findOrFail($id);
+        $applicants->delete();
+
+        return response()->json($applicants);
     }
 }

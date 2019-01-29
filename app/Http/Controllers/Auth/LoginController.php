@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
+use input;
+use Redirect;
 
 class LoginController extends Controller
 {
@@ -25,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/Apllicants';
+   
 
     /**
      * Create a new controller instance.
@@ -36,4 +39,20 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
+    public function redirectTo()
+    {
+        $roles = Auth::user()->roles()->get();
+    
+        foreach ($roles as $role) {
+            // dd($role->name);
+            if ( $role->name == "applicant" ){
+                return '/applicants';
+            } else {
+                return '/admin';
+            }
+        }
+    }
+        
+    
 }
