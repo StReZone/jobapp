@@ -1,7 +1,7 @@
 @extends("master.app_template")
 
 @section('content')
- <h1 class="page-header">Pesonal Information</h1>
+<h1 class="page-header">Pesonal Information</h1>
 <div class="container">
     <div class="col-md-2"></div>
     <div class="col-md-8">

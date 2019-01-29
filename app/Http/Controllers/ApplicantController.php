@@ -120,23 +120,32 @@ class ApplicantController extends Controller
                     $WorkEx->save();
                 }
             }
-            
-            return view('applicants.profile');
+            Session::flash("notice","You profile has beens saved !! ");
+            return view('applicants.dashboard');
         }
         
     }
 
     public function upload()
     {
-        $applicants = Applicant::with(['EduBackground','WorkExp'])->get();
+        $c=0;
+        //id user login
+        $idauth = Auth::User()->id;
+
+        // get id_app from applicant
+        $applicants = Applicant::select('id')->where('id_user',$idauth)->get();
+         
         return view('applicants.upload')->with('applicants',$applicants);
+
+         
+        // $applicants = Applicant::with(['EduBackground','WorkExp'])->get();
+        //return view('applicants.upload')->with('applicants',$applicants);
 
     }
     public function storeUpload(Request $request)
     {
         $validation = Validator::make($request->all(), [
             'userfile.*' => 'required|mimes:pdf|max:10000'
-]
         ]);
 
         if ($validation->fails()){
@@ -151,14 +160,16 @@ class ApplicantController extends Controller
                 $destination_path = 'uploads/';
                 $filename = str_random(6).'_'.$file->getClientOriginalName();
                 $file->move($destination_path, $filename);
-                $applicant = Applicant::find($id); 
+
+                //update
+                $applicant = Applicant::find($request->id); 
                 $applicant->upload_cv = $destination_path . $filename;
-                $applicants->save();   
+                $applicant->save();   
                     
                 }
             }   
-            Session::flash("notice","Article success created");
-            return redirect()->route("applicant.index");
+            Session::flash("notice","Upload file success ");
+            return redirect()->route("applicants.index");
         }
     }
     

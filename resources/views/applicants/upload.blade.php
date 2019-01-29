@@ -8,7 +8,10 @@
   <div class="row">
     <div class="col-sm-offset-2 col-sm-8"><br><br>
     	{!! Form::open(['route' => 'storeUpload', 'class' => 'formhorizontal', 'role' => 'form', 'enctype' => 'multipart/form-data']) !!}
-        	<div class="form-group">
+		@foreach ($applicants as $applicant)
+			{!! Form::hidden('id', $applicant->id , array('class' => 'form-control')) !!}   
+		@endforeach
+			<div class="form-group">
 			<div class="input-group">
 				<input type="text" class="form-control" readonly>
 					<div class="input-group-btn">
@@ -22,7 +25,7 @@
 			</div><!-- form-group -->
 			<div class="form-group">
 			    <div class="col-lg-3"></div>
-			        <div class="col-lg-9">
+			        <div class="col-lg-6">
 			            {!! Form::submit('Save', array('class' => 'btn btn-raised btn-primary')) !!}
 			            {!! link_to(route('applicants.index'), "Back", ['class' => 'btn btn-raised btn-info']) !!}
 			     </div>

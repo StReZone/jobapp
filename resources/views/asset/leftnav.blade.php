@@ -7,7 +7,7 @@
                 <a href="{!! route('applicants.index')!!}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-upload fa-fw"></i> Uplode CV</a>
+                <a href="{!! route('upload')!!}"><i class="fa fa-upload fa-fw"></i> Uplode CV</a>
             </li>
             @if (!empty($applicants))
                 @foreach($applicants as $applicant)

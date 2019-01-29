@@ -27,9 +27,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//]] Route::group(['middleware' => ['auth','role:admin'] ], function() {
-//     Route::resource('admin','ManagerController');
-// });
+Route::group(['middleware' => ['auth','role:admin'] ], function() {
+     Route::resource('admin','AdminController');
+});
+
 Route::group(['middleware' => ['auth','role:applicant']], function() {
     Route::resource('applicants','ApplicantController');
     Route::get('/upload','ApplicantController@upload')->name('upload');
